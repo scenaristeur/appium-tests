@@ -1,3 +1,6 @@
+// https://www.selenium.dev/documentation/legacy/json_wire_protocol/
+// https://github.com/admc/wd/blob/master/lib/main.js
+
 import wd from 'wd';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
@@ -31,11 +34,11 @@ browser.on('http', function(meth, path, data) {
 //   return text.replace('Display is', '').trim();
 // }
 
-function getAllMethods(obj = this) {
-          return Object.keys(obj)
-              .filter((key) => typeof obj[key] === 'function')
-              .map((key) => obj[key]);
-      }
+// function getAllMethods(obj = this) {
+//           return Object.keys(obj)
+//               .filter((key) => typeof obj[key] === 'function')
+//               .map((key) => obj[key]);
+//       }
 
 
 describe('edge se lance', async function () {
@@ -78,14 +81,37 @@ describe('edge se lance', async function () {
       app: "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
       platformName: 'Windows',
     });
+
+    //DRIVER
    console.log(driver)
-   // let methods = getAllMethods(driver)
-   // console.log(methods)
-//    await driver.source().should.eventually.be.not.empty;
+//SOURCE
 // let source = await driver.source()
 // console.log("source", source)
+
+//ELEMENTS
+
+
 let elements = await driver.elements("xpath",'//*')
-console.log(elements)
+// console.log(elements)
+console.log("use FOR await")
+for await (const e of elements){
+  let tagName = await e.getTagName()
+ // let t = await e.text()
+ // let n = await e.getAttribute("name")
+ //  let i_d = await e.getAttribute("id")
+ //  console.log(i,t, n, i_d)
+ console.log( tagName)
+}
+// elements.forEach((e, i) => {
+//
+//   let tagName = await e.getTagName()
+//  // let t = await e.text()
+//  // let n = await e.getAttribute("name")
+//  //  let i_d = await e.getAttribute("id")
+//  //  console.log(i,t, n, i_d)
+//  console.log(i, tagName)
+// });
+
 // await driver.get("http://appium.io/")
 // it('Addition', async () => {
   // Find the buttons by their names and click them in sequence to perform 1 + 7 = 8
