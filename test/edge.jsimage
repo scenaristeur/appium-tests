@@ -5,18 +5,7 @@ import wd from 'wd';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 
-function formatXml(xml, tab) { // tab = optional indent value, default is tab (\t)
-  var formatted = '', indent= '';
-  tab = tab || '\t';
-  xml.split(/>\s*</).forEach(function(node) {
-      if (node.match( /^\/\w/ )) indent = indent.substring(tab.length); // decrease indent by one 'tab'
-      formatted += indent + '<' + node + '>\r\n';
-      if (node.match( /^<?\w[^>]*[^\/]$/ )) indent += tab;              // increase indent
-  });
-  return formatted.substring(1, formatted.length-3);
-}
-
-// import * as cv from 'opencv-bindings'
+import * as cv from 'opencv-bindings'
 // Define a global variable 'Module' with a method 'onRuntimeInitialized':
 // let Module = {
 //   onRuntimeInitialized() {
@@ -66,7 +55,7 @@ browser.on('http', function(meth, path, data) {
 
 
 describe('edge se lance', async function () {
-  this.timeout(100000)
+  this.timeout(50000)
   // if (!await isAdmin()) {
   //   return;
   // }
@@ -108,82 +97,51 @@ describe('edge se lance', async function () {
 
     //DRIVER
    console.log(driver)
-
+//SOURCE
+// let source = await driver.source()
+// console.log("source", source)
 
 //ELEMENTS
 await driver.sleep(1000)
 
-// show elements
-// await elements(driver)
 
-//SOURCE
-// await xmlSource(driver)
+// let elements = await driver.elements("xpath",'//*')
+// await driver.sleep(1000)
+//  console.log(elements.length , " elements")
+// console.log("use FOR await")
+// for await (const e of elements){
+//   let el ={}
+//   el.tagName = await e.getTagName()
+//   el.text = await e.text()
+//    el.name = await e.getAttribute("name")
+//    el.id = await e.getAttribute("id")
+//    el.href = await e.getAttribute("href")
+//    el.string = await e.toString()
+//    el.json = await e.toJSON()
+//    el.placeholder = await e.getAttribute("placeholder")
+//   // let attrs = await driver.safeExecuteAsync("return arguments[0].attributes", e)
 //
-// await driver.sleep(3000)
-
-let elements = await driver.elements("xpath",'//*')
-await driver.sleep(1000)
- console.log(elements.length , " elements")
-console.log("use FOR await")
- let indice = 0
-for await (const e of elements){
-  let el ={}
-  el.tagName = await e.getTagName()
-  el.text = await e.text()
-   //el.name = await e.getAttribute("name")
-   el.Name = await e.getAttribute("Name")
-   el.id = await e.getAttribute("id")
-   el.href = await e.getAttribute("href")
-   el.string = await e.toString()
-   el.json = await e.toJSON()
-   el.placeholder = await e.getAttribute("placeholder")
-  // let attrs = await driver.safeExecuteAsync("return arguments[0].attributes", e)
-
-  //console.log(s)
-  //console.log(indice, el.text, )
-  if (el.text != "Fermer" && el.text != "Réduire" && el.text != "Agrandir" && el.text != "Fermer l'onglet"){
-    try {
-      await e.click()
-      await e.sendKeys(indice)
-      await e.type(indice)
-    //
-console.log("-----------------",indice, el.Name,  el.text, " ok")
-if(indice == 21){
-  console.log(el)
-}
-    }
-    catch(e){
-      console.log(indice, el.text, " not", e)
-    }
-
-    indice ++
-  }
-  // if (el.text == "Nouvel Onglet"){
-  //   console.log("NOUVEAU")
-  //   await el.click()
-  // }
-//    if(el.text == "Entrez votre terme de recherche"){
-//      await el.type("hello world!")
-// // await element.type(Key.Enter)
-// console.log("saisie ok")
-//      await driver.sleep(1000)
-//    }
-}
-   console.log(elements.length , " elements")
-
-
-
+//   //console.log(s)
+//   console.log(el.tagName)
+// //    if(el.text == "Entrez votre terme de recherche"){
+// //      await el.type("hello world!")
+// // // await element.type(Key.Enter)
+// // console.log("saisie ok")
+// //      await driver.sleep(1000)
+// //    }
+// }
 
 
 //await saisie(driver)
-// driver.settings({"getMatchedImageResult": true})
-// let test = await driver.element('-image', "C:\\Users\\psn\\dev\\appium\\monapp\\images\\jenkins.jpg" )
-// let b64 = test.getAttribute('visual')
-// console.log("b64",b64)
+driver.settings({"getMatchedImageResult": true})
+let test = await driver.element('-image', "C:\\Users\\psn\\dev\\appium\\monapp\\images\\jenkins.jpg" )
+let b64 = test.getAttribute('visual')
+console.log("b64",b64)
 //console.log("test jenkins",test)
 //await test.click()
 
 
+console.log(elements.length , " elements")
 
 // let title = await driver.executeAsync('document.title')
 // //  let s = e.source()
@@ -227,56 +185,6 @@ await driver.sleep(3000)
 });
 
 
-async function xmlSource(driver){
-  let source = await driver.source()
-  console.log("source", formatXml(source))
-  let elementsXml = formatXml(source).split('\n')
-  console.log(elementsXml)
-}
-
-
-async function elements(driver){
-  let elements = await driver.elements("xpath",'//*')
-  await driver.sleep(1000)
-   console.log(elements.length , " elements")
-  console.log("use FOR await")
-   let indice = 0
-  for await (const e of elements){
-    let el ={}
-    el.tagName = await e.getTagName()
-    el.text = await e.text()
-     el.name = await e.getAttribute("name")
-     el.id = await e.getAttribute("id")
-     el.href = await e.getAttribute("href")
-     el.string = await e.toString()
-     el.json = await e.toJSON()
-     el.placeholder = await e.getAttribute("placeholder")
-    // let attrs = await driver.safeExecuteAsync("return arguments[0].attributes", e)
-
-    //console.log(s)
-    console.log(el)
-//     try {
-//       await el.sendKeys(indice)
-// console.log(indice, " ok")
-//     }
-//     catch(e){
-//       console.log(indice," not")
-//     }
-//
-//     indice ++
-    // if (el.text == "Nouvel Onglet"){
-    //   console.log("NOUVEAU")
-    //   await el.click()
-    // }
-  //    if(el.text == "Entrez votre terme de recherche"){
-  //      await el.type("hello world!")
-  // // await element.type(Key.Enter)
-  // console.log("saisie ok")
-  //      await driver.sleep(1000)
-  //    }
-  }
-     console.log(elements.length , " elements")
-}
 async function saisie(driver){
 console.log("saisie")
 // LeftClick on Pane "" at (451,104)
