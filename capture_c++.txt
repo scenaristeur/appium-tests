@@ -1,0 +1,35 @@
+// LeftClick on Pane "" at (451,104)
+Console.WriteLine("LeftClick on Pane \"\" at (451,104)");
+string xpath_LeftClickPane_451_104 = "/Pane[@ClassName=\"#32769\"][@Name=\"Bureau 1\"]/Window[@ClassName=\"Chrome_WidgetWin_1\"][@Name=\"Nouvel onglet - Profil 1 – Microsoft​ Edge\"]/Pane[@ClassName=\"BrowserRootView\"][@Name=\"Nouvel onglet - Microsoft Edge\"]/Pane[@ClassName=\"NonClientView\"][@Name=\"Microsoft Edge\"]/Pane[@ClassName=\"GlassBrowserFrameView\"]/Pane[@ClassName=\"BrowserView\"]/Pane[@ClassName=\"View\"]/Pane[@ClassName=\"View\"]/Pane[@ClassName=\"View\"]";
+var winElem_LeftClickPane_451_104 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickPane_451_104);
+if (winElem_LeftClickPane_451_104 != null)
+{
+    winElem_LeftClickPane_451_104.Click();
+}
+else
+{
+    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickPane_451_104}");
+    return;
+}
+
+
+// KeyboardInput VirtualKeys=""test"Keys.Return + Keys.Return" CapsLock=False NumLock=True ScrollLock=False
+Console.WriteLine("KeyboardInput VirtualKeys=\"\"test\"Keys.Return + Keys.Return\" CapsLock=False NumLock=True ScrollLock=False");
+System.Threading.Thread.Sleep(100);
+winElem_LeftClickPane_451_104.SendKeys("test");
+winElem_LeftClickPane_451_104.SendKeys(Keys.Return + Keys.Return);
+
+
+// LeftClick on Button "WinAppDriverUIRecorder.exe - 1 fenêtre en cours d’exécution" at (21,21)
+Console.WriteLine("LeftClick on Button \"WinAppDriverUIRecorder.exe - 1 fenêtre en cours d’exécution\" at (21,21)");
+string xpath_LeftClickButtonWinAppDriv_21_21 = "/Pane[@ClassName=\"#32769\"][@Name=\"Bureau 1\"]/Pane[@ClassName=\"Shell_TrayWnd\"][@Name=\"Barre des tâches\"]/ToolBar[@ClassName=\"MSTaskListWClass\"][@Name=\"Applications en cours d’exécution\"]/Button[@Name=\"WinAppDriverUIRecorder.exe - 1 fenêtre en cours d’exécution\"][starts-with(@AutomationId,\"C:\\Users\\psn\\dev\\WinAppDriverUIRecorder\\WinAppDriverUiRecorder.e\")]";
+var winElem_LeftClickButtonWinAppDriv_21_21 = desktopSession.FindElementByAbsoluteXPath(xpath_LeftClickButtonWinAppDriv_21_21);
+if (winElem_LeftClickButtonWinAppDriv_21_21 != null)
+{
+    winElem_LeftClickButtonWinAppDriv_21_21.Click();
+}
+else
+{
+    Console.WriteLine($"Failed to find element using xpath: {xpath_LeftClickButtonWinAppDriv_21_21}");
+    return;
+}

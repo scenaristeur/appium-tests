@@ -1,2 +1,8 @@
-# appium-tests
-bouger les tests dans le dosier test
+# source
+https://github.com/appium/appium-windows-driver
+
+# lancement
+
+```
+npm run mocha
+```

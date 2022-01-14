@@ -1,0 +1,87 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
+ import wd from 'wd';
+ import chai from 'chai';
+ import chaiAsPromised from 'chai-as-promised';
+ // import { startServer } from 'appium-windows-driver/lib/server.js';
+ // import { isAdmin } from 'appium-windows-driver/lib/installer.js';
+
+ chai.should();
+ chai.use(chaiAsPromised);
+
+ const TEST_PORT = 4723//4788;
+ const TEST_HOST = 'localhost';
+
+import { /*driver,*/ By2, /* windowsAppDriverCapabilities*/ } from 'selenium-appium'
+import { calculatorAppId } from '../Setup.js'
+
+let driver = wd.promiseChainRemote(TEST_HOST, TEST_PORT);
+
+// jest.setTimeout(50000);
+
+// const capabilites = windowsAppDriverCapabilities(calculatorAppId)
+
+before(() => {
+  console.log("before all")
+  // return driver.startWithCapabilities(capabilites);
+console.log("driver", driver)
+});
+
+after(() => {
+  console.log("after all")
+  return driver.quit();
+});
+
+async function getCalculatorResultText() {
+  const text = await By2.nativeAccessibilityId('CalculatorResults').getText();
+  return text.replace('Display is', '').trim();
+}
+
+describe('CALCULATIONS', () => {
+  // Applies only to tests in this describe block
+  beforeEach(() => {
+    return By2.nativeName('Clear').click();
+  });
+  it('Addition', async () => {
+    // Find the buttons by their names and click them in sequence to perform 1 + 7 = 8
+    await By2.nativeName('One').click();
+    await By2.nativeName('Plus').click();
+    await By2.nativeName('Seven').click();
+    await By2.nativeName('Equals').click();
+    expect(await getCalculatorResultText()).toBe('8');
+  });
+
+  it('Division', async () => {
+    // Find the buttons by their accessibility ids and click them in sequence to perform 88 / 11 = 8
+    await By2.nativeAccessibilityId('num8Button').click();
+    await By2.nativeAccessibilityId('num8Button').click();
+    await By2.nativeAccessibilityId('divideButton').click();
+    await By2.nativeAccessibilityId('num1Button').click();
+    await By2.nativeAccessibilityId('num1Button').click();
+    await By2.nativeAccessibilityId('equalButton').click();
+    expect(await getCalculatorResultText()).toBe('8');
+  });
+
+  it('Multiplication', async () => {
+    // Find the buttons by their names using XPath and click them in sequence to perform 9 x 9 = 81
+    await By2.nativeXpath("//Button[@Name='Nine']").click();
+    await By2.nativeXpath("//Button[@Name='Multiply by']").click();
+    await By2.nativeXpath("//Button[@Name='Nine']").click();
+    await By2.nativeXpath("//Button[@Name='Equals']").click();
+    expect(await getCalculatorResultText()).toBe('81');
+  });
+
+
+
+  it('Subtraction', async () => {
+    // Find the buttons by their accessibility ids using XPath and click them in sequence to perform 9 - 1 = 8
+    await By2.nativeXpath("//Button[@AutomationId=\"num9Button\"]").click();
+    await By2.nativeXpath("//Button[@AutomationId=\"minusButton\"]").click();
+    await By2.nativeXpath("//Button[@AutomationId=\"num1Button\"]").click();
+    await By2.nativeXpath("//Button[@AutomationId=\"equalButton\"]").click();
+    expect(await getCalculatorResultText()).toBe('8');
+  });
+});

@@ -1,0 +1,9 @@
+String psScript =
+  "$sig = '[DllImport(\"user32.dll\")] public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);'\n" +
+  "Add-Type -MemberDefinition $sig -name NativeMethods -namespace Win32\n" +
+  "Start-Process Notepad\n" +
+  "$hwnd = @(Get-Process Notepad)[0].MainWindowHandle\n" +
+  "[Win32.NativeMethods]::ShowWindowAsync($hwnd, 2)\n" +
+  "[Win32.NativeMethods]::ShowWindowAsync($hwnd, 4)\n" +
+  "Stop-Process -Name Notepad";
+driver.executeScript("powerShell", ImmutableMap.of("script", psScript));
